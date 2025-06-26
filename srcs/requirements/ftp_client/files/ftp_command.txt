@@ -1,0 +1,8 @@
+conect: ftp user@hostname
+-------------------------------
+ls, dir         : list file.
+!ls             : local list file.
+lcd [path]      : change local directory.
+lcd             : show local directory.
+put [file]      : upload file.
+get [file]      : download file.

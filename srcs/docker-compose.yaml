@@ -1,0 +1,47 @@
+services:
+  ftp_server:
+    container_name: 'ftp_server'
+    build: 
+      context: ./requirements/ftp_server/
+      args:
+        USER_PASSWORD: ${USER_PASSWORD}
+    environment:
+      TZ: "Etc/UTC"
+      DEBIAN_FRONTEND: "noninteractive"
+    image: 'ftp_server:inquisitor'
+    networks:
+      - inquisitor
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    restart: always
+  ftp_client:
+    container_name: 'ftp_client'
+    build:
+      context: ./requirements/ftp_client/
+    image: 'ftp_client:inquisitor'
+    networks:
+      - inquisitor
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    restart: always
+    depends_on:
+      - ftp_server
+  inquisitor:
+    container_name: 'inquisitor'
+    image: python:3.14.0b3-bookworm
+    volumes:
+      - ./inquisitor:/app/inquisitor
+    working_dir: /app/inquisitor
+    command: tail -f /dev/null
+    networks:
+      - inquisitor
+    restart: always
+    depends_on:
+      - ftp_client
+
+networks:
+  inquisitor:
+    name: inquisitor
+    driver: bridge
