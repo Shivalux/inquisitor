@@ -4,7 +4,8 @@ services:
     build: 
       context: ./requirements/ftp_server/
       args:
-        USER_PASSWORD: ${USER_PASSWORD}
+        USERNAME: ${USERNAME}
+        PASSWORD: ${PASSWORD}
     environment:
       TZ: "Etc/UTC"
       DEBIAN_FRONTEND: "noninteractive"
@@ -30,11 +31,15 @@ services:
       - ftp_server
   inquisitor:
     container_name: 'inquisitor'
-    image: python:3.14.0b3-bookworm
+    build:
+      context: ./requirements/inquisitor
+      dockerfile: Dockerfile
+    image: inquisitor:inquisitor
+    privileged: true
+    cap_add:
+      - NET_ADMIN
     volumes:
-      - ./inquisitor:/app/inquisitor
-    working_dir: /app/inquisitor
-    command: tail -f /dev/null
+      - ./requirements/inquisitor/srcs:/app/inquisitor
     networks:
       - inquisitor
     restart: always

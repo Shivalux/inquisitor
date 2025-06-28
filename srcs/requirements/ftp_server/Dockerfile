@@ -1,17 +1,19 @@
 FROM    ubuntu:latest
 
-ARG     USER_PASSWORD
+ARG     USERNAME
+ARG     PASSWORD
 
 RUN     apt-get update && apt-get upgrade -y
-RUN     apt install systemctl vsftpd vim -y tzdata
+RUN     apt install systemctl net-tools vsftpd vim -y tzdata
 
-RUN     useradd -m ftpuser
-RUN     echo ftpuser:$USER_PASSWORD | chpasswd
+RUN     useradd -m $USERNAME
+RUN     echo $USERNAME:$PASSWORD | chpasswd
 
-COPY    ./ftpuser /home/ftpuser
+COPY    ./ftp_directory /home/$USERNAME
 COPY    ./confs/vsftpd.conf /etc/vsftpd.conf
 RUN     mkdir -p /var/run/vsftpd/empty && chmod 755 /var/run/vsftpd/empty
-RUN     chmod 777 /home/ftpuser
+RUN     chmod 777 /home/$USERNAME
+
 WORKDIR /home/ftpuser
 
 CMD     ["vsftpd"]
