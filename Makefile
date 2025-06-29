@@ -28,16 +28,16 @@ console:
 
 information:
 	@echo "[ $(SERVER) ]"
-	@docker inspect $(SERVER) | grep '"MacAddress": "[^"]' | sed 's/^[ \t]*//' || true
 	@docker inspect $(SERVER) | grep '"IPAddress": "[^"]' | sed 's/^[ \t]*//' || true
+	@docker inspect $(SERVER) | grep '"MacAddress": "[^"]' | sed 's/^[ \t]*//' || true
 	@echo "[ $(CLIENT) ]"
-	@docker inspect $(CLIENT) | grep '"MacAddress": "[^"]' | sed 's/^[ \t]*//' || true
 	@docker inspect $(CLIENT) | grep '"IPAddress": "[^"]' | sed 's/^[ \t]*//' || true
+	@docker inspect $(CLIENT) | grep '"MacAddress": "[^"]' | sed 's/^[ \t]*//' || true
 
 inspect:
 	@echo "[ $(ARG) ]"
-	@docker inspect $(ARG) | grep '"MacAddress": "[^"]' | sed 's/^[ \t]*//' || true
 	@docker inspect $(ARG) | grep '"IPAddress": "[^"]' | sed 's/^[ \t]*//' || true
+	@docker inspect $(ARG) | grep '"MacAddress": "[^"]' | sed 's/^[ \t]*//' || true
 
 list:
 	@echo "-------------:: list :: all containers ::-------------"
